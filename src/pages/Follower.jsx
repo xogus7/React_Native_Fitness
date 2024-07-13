@@ -1,8 +1,8 @@
 import React from 'react';
 import { SafeAreaView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import BasicHeader from '../components/BasicHeader';
 
-const backArrow = require('../assets/icons/back_arrow.png');
 const Tab = createMaterialTopTabNavigator();
 
 const FollowerTab = () => {
@@ -34,13 +34,7 @@ const FollowingTab = () => {
 const Follower = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image source={backArrow} style={{ width: 40, height: 40 }} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>FollowerD</Text>
-                <View style={{ width: 40 }} />
-            </View>
+            <BasicHeader title={'Follower'}/>
             <Tab.Navigator
                 screenOptions={{
                     tabBarInactiveTintColor: '#828282',
