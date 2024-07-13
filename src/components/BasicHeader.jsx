@@ -1,28 +1,37 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-
-// const leftArrow = require('../assets/icons/leftArrow.png');
 
 const BasicHeader = ({ title }) => {
     const navigation = useNavigation();
 
     return (
         <View style={styles.headerWrapper}>
-            {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image source={leftArrow} style={styles.backButton} />
-            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image source={backArrow} style={styles.backButton} />
+            </TouchableOpacity>
             <Text style={styles.headerTitle}>{title}</Text>
-            <View style={styles.backButton} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginRight: 8 }}>
+                <TouchableOpacity>
+                    <Image source={settingsIcon} style={{ width: 32, height: 32 }} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image source={alarm} style={{ width: 32, height: 32 }} />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
+
+const settingsIcon = require('../assets/icons/settings.png');
+const alarm = require('../assets/icons/alarm.png');
+const backArrow = require('../assets/icons/back_arrow.png');
 
 const styles = StyleSheet.create({
     headerWrapper: {
         backgroundColor: '#FFF',
         paddingHorizontal: 16,
-        paddingVertical: 18,
+        paddingVertical: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -30,13 +39,12 @@ const styles = StyleSheet.create({
         borderBottomColor: '#EAEAEA'
     },
     backButton: {
-        width: 32,
-        height: 32
+        width: 40,
+        height: 40
     },
     headerTitle: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
-        lineHeight: 19.97,
         textAlign: 'center',
         color: '#000'
     },
