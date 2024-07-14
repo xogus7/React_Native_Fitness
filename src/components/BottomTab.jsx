@@ -35,7 +35,7 @@ const BottomTab = ({ state, navigation, insets, descriptors }) => {
                         switch (label) {
                             case 'Home':
                                 return bool ? home_fill : home_empty;
-                            case 'Search':
+                            case 'SearchTab':
                                 return bool ? search_fill : search_empty;
                             case 'Add':
                                 return bool ? addOn : addOn;

@@ -4,7 +4,7 @@ import { SafeAreaView, View, Text, TextInput, Image, TouchableOpacity, StyleShee
 const { width } = Dimensions.get('window');
 
 const searchIcon = require('../assets/icons/search.png');
-const keywordDeleteIcon = require('../assets/icons/keywordDelete.png');
+const closeIcon = require('../assets/icons/close.png');
 
 const SearchList = () => {
     const [keyword, setKeyword] = useState('');
@@ -56,7 +56,7 @@ const SearchList = () => {
                                 <Text>Lucymartin_3</Text>
                             </TouchableOpacity>
                             <TouchableOpacity>
-                                <Image source={keywordDeleteIcon} style={{ width: 40, height: 40}} />
+                                <Image source={closeIcon} style={{ width: 30, height: 30}} />
                             </TouchableOpacity>
                         </View>
                     </View>

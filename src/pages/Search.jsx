@@ -1,63 +1,9 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, Image, TouchableOpacity, StyleSheet, FlatList, useWindowDimensions } from 'react-native';
+import BasicHeader from '../components/BasicHeader';
 
 const searchIcon = require('../assets/icons/search.png');
 const multiPhoto = require('../assets/icons/multiPhoto.png');
-
-const duumy_search = [
-    {
-        id: 1,
-        img: 'https://picsum.photos/130/130',
-        isMulti: true,
-    },
-    {
-        id: 2,
-        img: 'https://picsum.photos/130/130',
-        isMulti: false,
-
-    },
-    {
-        id: 3,
-        img: 'https://picsum.photos/130/130',
-        isMulti: true,
-    },
-    {
-        id: 4,
-        img: 'https://picsum.photos/130/130',
-        isMulti: false,
-    },
-    {
-        id: 5,
-        img: 'https://picsum.photos/130/130',
-        isMulti: true,
-    },
-    {
-        id: 6,
-        img: 'https://picsum.photos/130/130',
-        isMulti: false,
-    },
-    {
-        id: 7,
-        img: 'https://picsum.photos/130/130',
-        isMulti: false,
-    },
-    {
-        id: 8,
-        img: 'https://picsum.photos/130/130',
-        isMulti: true,
-    },
-    {
-        id: 9,
-        img: 'https://picsum.photos/130/130',
-        isMulti: true,
-    },
-    {
-        id: 10,
-        img: 'https://picsum.photos/130/130',
-        isMulti: true,
-    },
-]
-
 
 const Search = ({ navigation }) => {
     const [keyword, setKeyword] = useState('');
@@ -76,6 +22,7 @@ const Search = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
             <View style={{ flex: 1 }}>
+                <BasicHeader title={'검색'}/>
                 <View style={styles.searchContainer}>
                     <TouchableOpacity 
                         onPress={() => navigation.navigate('SearchList')}
@@ -132,5 +79,59 @@ const styles = StyleSheet.create({
         paddingRight: 12
     }
 })
+
+const duumy_search = [
+    {
+        id: 1,
+        img: 'https://picsum.photos/130/130',
+        isMulti: true,
+    },
+    {
+        id: 2,
+        img: 'https://picsum.photos/130/130',
+        isMulti: false,
+
+    },
+    {
+        id: 3,
+        img: 'https://picsum.photos/130/130',
+        isMulti: true,
+    },
+    {
+        id: 4,
+        img: 'https://picsum.photos/130/130',
+        isMulti: false,
+    },
+    {
+        id: 5,
+        img: 'https://picsum.photos/130/130',
+        isMulti: true,
+    },
+    {
+        id: 6,
+        img: 'https://picsum.photos/130/130',
+        isMulti: false,
+    },
+    {
+        id: 7,
+        img: 'https://picsum.photos/130/130',
+        isMulti: false,
+    },
+    {
+        id: 8,
+        img: 'https://picsum.photos/130/130',
+        isMulti: true,
+    },
+    {
+        id: 9,
+        img: 'https://picsum.photos/130/130',
+        isMulti: true,
+    },
+    {
+        id: 10,
+        img: 'https://picsum.photos/130/130',
+        isMulti: true,
+    },
+]
 
 export default Search;
