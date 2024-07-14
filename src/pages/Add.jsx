@@ -1,125 +1,120 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, Text, Image, FlatList, TouchableOpacity,
-  useWindowDimensions, Platform, PermissionsAndroid} from 'react-native';
+import {
+  SafeAreaView, View, Text, Image, FlatList, TouchableOpacity,
+  useWindowDimensions, Platform, ScrollView,
+  StyleSheet
+} from 'react-native';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { hasAndroidPermission } from '../utils/permissions';
+import BasicHeader from '../components/BasicHeader';
 
 const Add = ({ navigation }) => {
-    const [images, setImages] = useState([]);
-    const [selectedPhoto, setSelectedPhoto] = useState();
-    const [selectedIndex, setSelectedIndex] = useState();
+  const [images, setImages] = useState([]);
+  const [selectedPhoto, setSelectedPhoto] = useState();
+  const [selectedIndex, setSelectedIndex] = useState();
 
-    const { width, height } = useWindowDimensions();
+  const uploadImage = async () => {
+    FetchImages();
+  };
 
-    useEffect(() => {
-        FetchImages();
-    }, [])
-
-    async function hasAndroidPermission() {
-        const getCheckPermissionPromise = () => {
-          if (Platform.Version >= 33) {
-            return Promise.all([
-              PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES),
-              PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO),
-            ]).then(
-              ([hasReadMediaImagesPermission, hasReadMediaVideoPermission]) =>
-                hasReadMediaImagesPermission && hasReadMediaVideoPermission,
-            );
-          } else {
-            return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
-          }
-        };
-      
-        const hasPermission = await getCheckPermissionPromise();
-        if (hasPermission) {
-          return true;
+  const FetchImages = async () => {
+    if (Platform.OS === "android" && !(await hasAndroidPermission())) {
+      console.log("fail");
+    }
+    else {
+      CameraRoll.getPhotos({
+        first: 100,
+        assetType: 'Photos',
+        groupTypes: 'All'
+      }).then(res => {
+        console.log(res);
+        if (!selectedPhoto) {
+          setSelectedPhoto(res.edges[0].node.image);
+          setSelectedIndex(0);
         }
-        const getRequestPermissionPromise = () => {
-          if (Platform.Version >= 33) {
-            return PermissionsAndroid.requestMultiple([
-              PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-              PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
-            ]).then(
-              (statuses) =>
-                statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES] ===
-                  PermissionsAndroid.RESULTS.GRANTED &&
-                statuses[PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO] ===
-                  PermissionsAndroid.RESULTS.GRANTED,
-            );
-          } else {
-            return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE).then((status) => status === PermissionsAndroid.RESULTS.GRANTED);
-          }
-        };
-      
-        return await getRequestPermissionPromise();
-      }
 
-    const FetchImages = async () => {
-        if (Platform.OS === "android" && !(await hasAndroidPermission())) {
-            console.log("fail");
-          }
-        CameraRoll.getPhotos({
-            first: 100,
-            assetType: 'Photos',
-            groupTypes: 'All'
-        }).then(res => {
-            console.log(res);
-            if (!selectedPhoto) {
-                setSelectedPhoto(res.edges[0].node.image);
-                setSelectedIndex(0);
-            }
-
-            setImages(res.edges.map(e => e.node.image))
-        })
+        setImages(res.edges.map(e => e.node.image))
+      })
     }
+  }
 
-    const renderItem = ({item, index}) => {
-        return (
-            <TouchableOpacity 
-                style={{borderWidth: 1, borderColor: '#FFF'}}
-                onPress={() => {
-                    setSelectedPhoto(item)
-                    setSelectedIndex(index)
-                }
-                }>
-                    {
-                        selectedIndex === index && (
-                            <View style={{position:'absolute', right:8, top:2, width:20, height:20, borderWidth:1, borderColor: '#000', borderRadius: 20, zIndex: 2}}>
-                                <View style={{width:20, height: 20, borderRadius: 10, backgroundColor: 'green'}} />
-                            </View>
-                        )
-                    }
-                <Image source={item} style={{width: (width/4) -2, height: (width/4) -2}} />
-            </TouchableOpacity>
-        )
-    }
-
-
+  const renderItem = ({ item, index }) => {
     return (
-        <SafeAreaView style={{flex:1, backgroundColor:'#000'}}>
-            <View style={{flexDirection:'row', justifyContent:'space-between', alignItems: 'center', marginHorizontal: 16, marginBottom: 8}}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Text style={{fontSize: 24, color:'#FFF', fontWeight: 'bold'}}>X</Text>
-                </TouchableOpacity>
-                <Text style={{fontSize: 15, color:'#FFF', fontWeight: 'bold'}}>새 게시물</Text>
-                <TouchableOpacity>
-                    <Text style={{fontSize: 14, color:'#FFF', fontWeight: 'bold'}}>다음</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={{backgroundColor:'#000', flex: 0.5}}>
-                <Image source={{uri: selectedPhoto?.uri}} style={{ width: '100%', height: '100%'}} />
-            </View>
-            <View style={{flex: 0.5}}>
-                <FlatList 
-                    data={images}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.uri}
-                    numColumns={4}
-                    showsVerticalScrollIndicator={false}
-                    removeClippedSubviews
-                />
-            </View>
-        </SafeAreaView>
+      <View>
+        <TouchableOpacity
+          style={styles.cancelImage}
+          onPress={() => {
+            const newImages = [...images];
+            newImages.splice(index, 1);
+            setImages(newImages);
+          }}>
+          <Image style={{ width: '100%', height: "100%" }} source={closeIcon} />
+        </TouchableOpacity>
+        <Image
+          style={{ width: 72, height: 72, borderRadius: 8 }}
+          source={item}
+        />
+      </View>
     )
+  }
+
+
+  return (
+    <SafeAreaView>
+      <BasicHeader title="오운완 등록하기" />
+      <ScrollView>
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity
+            style={styles.uploadImageButton}
+            onPress={uploadImage}>
+            <Image style={{ width: 40, height: 40 }} source={image_upload} />
+            <Text style={{ color: '#bbb' }}>{`${images.length}개`}</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            <FlatList
+              horizontal
+              data={images}
+              contentContainerStyle={{
+                gap: 16,
+                paddingVertical: 16,
+                paddingRight: 16,
+              }}
+              renderItem={renderItem}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
+
+const image_upload = require('../assets/icons/image_upload.png');
+const closeIcon = require('../assets/icons/close.png');
+
+const styles = StyleSheet.create({
+  cancelImage: {
+    position: 'absolute',
+    backgroundColor: '#f2f2f2',
+    width: 24,
+    height: 24,
+    borderRadius: 100,
+    zIndex: 1,
+    right: -12,
+    top: -12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  uploadImageButton: {
+    marginVertical: 16,
+    marginRight: 16,
+    width: 72,
+    height: 72,
+    alignItems: 'center',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#aaa',
+    justifyContent: 'center',
+  }
+});
 
 export default Add;
