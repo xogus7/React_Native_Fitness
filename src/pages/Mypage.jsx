@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, Image } from 'react-native';
 import BasicHeader from '../components/BasicHeader';
+import FitnessCalender from './FitnessCalender';
 
 
 
@@ -9,6 +10,7 @@ const Mypage = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
             <View style={{ flex: 1 }}>
+                
                 <BasicHeader title={'내 정보'}/>
                 <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#ddd', paddingVertical: 15 }}>
                     <Image source={{ uri: 'https://picsum.photos/130/130' }} style={{ width: 60, height: 60, borderRadius: 30, marginLeft: 20 }} />
@@ -38,7 +40,7 @@ const Mypage = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
 
-
+                <FitnessCalender navigation={navigation} />
             </View>
         </SafeAreaView>
     )
