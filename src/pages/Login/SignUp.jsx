@@ -1,35 +1,31 @@
-import React, { useState } from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
+import Toast from 'react-native-toast-message';
+
 import { api } from '../../utils/api';
 import BasicHeader from '../../components/BasicHeader';
-import AlertModal from '../../components/AlertModal';
+
 
 const SignUp = ({ navigation }) => {
-    const [isVisible, setVisible] = useState(false);
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
 
-    const onValid = async (form) => {
+    const validation = async (form) => {
         const response = await api.post('/accounts', {
             email: form.email,
             password: form.password,
             nickname: form.nickname,
             phoneNumber: form.phoneNumber,
         });
-        setVisible(true);
         if (response.ok) {
             navigation.navigate('Login');
+        }
+        else {
+            Toast.show({
+                type: 'error',
+                text1: 'SignUp fail',
+                text2: `${response.data.errors[0].reason}`
+            });
         }
     };
 
@@ -47,25 +43,28 @@ const SignUp = ({ navigation }) => {
                     <Controller
                         name="email"
                         control={control}
+                        rules={{ required: '이메일을 입력' }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.input}
-                                placeholder="아이디"
+                                placeholder="email"
                                 value={value}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
                             />
                         )}
                     />
+
                 </View>
                 <View>
                     <Controller
                         name="password"
                         control={control}
+                        rules={{ required: true, }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.input}
-                                placeholder="비밀번호"
+                                placeholder="password"
                                 value={value}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
@@ -78,10 +77,11 @@ const SignUp = ({ navigation }) => {
                     <Controller
                         name="passwordCheck"
                         control={control}
+                        rules={{ required: true, }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.input}
-                                placeholder="비밀번호 확인"
+                                placeholder="passwordCheck"
                                 value={value}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
@@ -94,10 +94,11 @@ const SignUp = ({ navigation }) => {
                     <Controller
                         name="nickname"
                         control={control}
+                        rules={{ required: { value: true, message: 'error message' } }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.input}
-                                placeholder="닉네임"
+                                placeholder="nickname"
                                 value={value}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
@@ -109,10 +110,11 @@ const SignUp = ({ navigation }) => {
                     <Controller
                         name="phoneNumber"
                         control={control}
+                        rules={{ required: true, }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
                                 style={styles.input}
-                                placeholder="전화번호( -제외 )"
+                                placeholder="phoneNumber"
                                 value={value}
                                 onChangeText={onChange}
                                 onBlur={onBlur}
@@ -121,24 +123,10 @@ const SignUp = ({ navigation }) => {
                     />
                 </View>
                 <TouchableOpacity
-                    onPress={handleSubmit(onValid)}
-                    style={{
-                        backgroundColor: '#4AABFF',
-                        paddingHorizontal: 16,
-                        paddingVertical: 16,
-                        borderRadius: 8,
-                        alignItems: 'center',
-                    }}>
-                    <Text style={{ color: '#fff' }}>회원가입하기</Text>
+                    onPress={handleSubmit(validation)}
+                    style={styles.signUpButton}>
+                    <Text style={{ color: '#fff' }}>회원가입 하기</Text>
                 </TouchableOpacity>
-                <AlertModal
-                    isVisible={isVisible}
-                    okText={'확인'}
-                    noText={'닫기'}
-                    headerTitle={'잘못된 값을 입력하셨습니다.'}
-                    onPressOk={() => setVisible(!isVisible)}
-                    onPressNo={() => setVisible(!isVisible)}
-                />
             </View>
         </SafeAreaView>
     );
@@ -151,9 +139,13 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 8,
     },
-    errorText: {
-        color: 'red',
-    },
+    signUpButton: {
+        backgroundColor: '#4AABFF',
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        borderRadius: 8,
+        alignItems: 'center',
+    }
 });
 
 export default SignUp;

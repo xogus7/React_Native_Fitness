@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
+import Toast from 'react-native-toast-message';
+
 import { api } from '../../utils/api';
-import AlertModal from '../../components/AlertModal';
 
 const Login = ({ navigation }) => {
-    const [isVisible, setVisible] = useState(false);
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             email: 'test7@test.com',
@@ -13,27 +13,30 @@ const Login = ({ navigation }) => {
         },
     });
 
-    const onValid = async (formData) => {
+    const validation = async (formData) => {
         const response = await api.post('/auth', formData);
         if (!response.ok) {
-            console.log('login fail');
-            setVisible(true);
-            return;
+            return Toast.show({
+                type: 'error',
+                text1: 'Login fail',
+                text2: `${response.data.message}`
+            });;
         }
 
-        const userInfoResponse = await api.get(
-            '/accounts/info',
-        );
+        const userInfoResponse = await api.get('/accounts/info');
         if (userInfoResponse.ok && userInfoResponse.data?.result) {
-            console.log(userInfoResponse.data.result);
+            Toast.show({
+                type: 'success',
+                text1: `어서오세요! ${userInfoResponse.data.result.nickName}님`
+            });
             navigation.navigate('MainTab');
         }
     };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-            <View style={styles.signInContainer}>
-                <View style={styles.signInWrapper}>
+            <View style={styles.loginScreen}>
+                <View style={styles.loginContainer}>
                     <View style={{ gap: 8 }}>
                         <Controller
                             name="email"
@@ -44,7 +47,7 @@ const Login = ({ navigation }) => {
                                     onBlur={onBlur}
                                     onChangeText={onChange}
                                     value={value}
-                                    placeholder="이메일"
+                                    placeholder="email"
                                 />
                             )}
                         />
@@ -57,7 +60,7 @@ const Login = ({ navigation }) => {
                                     onBlur={onBlur}
                                     onChangeText={onChange}
                                     value={value}
-                                    placeholder="비밀번호"
+                                    placeholder="password"
                                     secureTextEntry={true}
                                 />
                             )}
@@ -65,20 +68,12 @@ const Login = ({ navigation }) => {
                     </View>
                     <View style={{ gap: 8 }}>
                         <TouchableOpacity
-                            style={styles.loginButtonWrapper}
-                            onPress={handleSubmit(onValid)}>
+                            style={styles.loginButton}
+                            onPress={handleSubmit(validation)}>
                             <Text style={styles.loginButtonText}>로그인</Text>
                         </TouchableOpacity>
-                        <AlertModal
-                            isVisible={isVisible}
-                            okText={'확인'}
-                            noText={'회원가입'}
-                            headerTitle={'로그인 정보를 다시 입력해주세요.'}
-                            onPressOk={() => setVisible(!isVisible)}
-                            onPressNo={() => navigation.navigate('SignUp')}
-                        />
                         <TouchableOpacity
-                            style={styles.loginButtonWrapper}
+                            style={styles.loginButton}
                             onPress={() => navigation.navigate('SignUp')}>
                             <Text style={styles.loginButtonText}>회원가입</Text>
                         </TouchableOpacity>
@@ -90,8 +85,7 @@ const Login = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    signInScreen: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    signInContainer: {
+    loginScreen: {
         flex: 1,
         backgroundColor: '#fff',
         padding: 16,
@@ -99,17 +93,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    signInWrapper: {
+    loginContainer: {
         gap: 16,
         width: '100%',
     },
-    inputWrapper: { flexDirection: 'row', alignItems: 'center' },
     input: {
         paddingHorizontal: 16,
         borderRadius: 8,
         backgroundColor: '#B2DCFF',
     },
-    loginButtonWrapper: {
+    loginButton: {
         height: 40,
         backgroundColor: '#4AABFF',
         borderRadius: 8,
