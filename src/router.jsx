@@ -4,16 +4,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BottomTab from './components/BottomTab';
 
 import Splash from './pages/Splash';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import Search from './pages/Search';
 import Add from './pages/Add';
-import Chat from './pages/Chat';
-import Mypage from './pages/Mypage';
+import Chat from './pages/Chat/Chat';
+import Mypage from './pages/Mypage/Mypage';
 import SearchList from './pages/SearchList';
-import Follower from './pages/Follower';
-import Myfeed from './pages/Myfeed';
+import Follower from './pages/Mypage/Follower';
+import Myfeed from './pages/Mypage/Myfeed';
 import FeedDetail from './pages/FeedDetail';
-import ChatDetail from './pages/ChatDetail';
+import ChatDetail from './pages/Chat/ChatDetail';
+import SignUp from './pages/Login/SignUp';
+import Login from './pages/Login/Login';
 
 
 const Stack = createNativeStackNavigator();
@@ -56,6 +58,8 @@ const Router = () => {
             // gestureEnabled: false
         }}>
             <Stack.Screen name="Splash" component={Splash} options={{ animation: 'fade_from_bottom'}} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="MainTab" component={MainTab} />
             <Stack.Screen name="FeedDetail" component={FeedDetail} />
             <Stack.Screen name="ChatDetail" component={ChatDetail} />
