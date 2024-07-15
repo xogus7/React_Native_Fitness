@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, Image } from 'react-native';
-import BasicHeader from '../components/BasicHeader';
+import BasicHeader from '../../components/BasicHeader';
 
 
 const Myfeed = ({ navigation }) => {

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native';
 import {GiftedChat} from 'react-native-gifted-chat';
-import BasicHeader from '../components/BasicHeader';
+import BasicHeader from '../../components/BasicHeader';
 
 const ChatDetail = ({}) => {
   const [otherUser, setOtherUser] = useState();

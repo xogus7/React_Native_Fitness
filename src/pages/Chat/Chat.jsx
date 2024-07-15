@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import BasicHeader from '../components/BasicHeader';
+import BasicHeader from '../../components/BasicHeader';
 
 const Chat = ({ navigation }) => {
     const renderItem = ({ item }) => {

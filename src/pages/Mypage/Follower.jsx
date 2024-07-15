@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import BasicHeader from '../components/BasicHeader';
+import BasicHeader from '../../components/BasicHeader';
 
 const Tab = createMaterialTopTabNavigator();
 

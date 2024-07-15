@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, TouchableOpacity, FlatList } from 'react-native';
-import Feed from '../components/Feed';
-import BasicHeader from '../components/BasicHeader';
+import Feed from '../../components/Feed';
+import BasicHeader from '../../components/BasicHeader';
 
 const Home = ({ navigation }) => {
     const [liked, setLiked] = useState(false);
