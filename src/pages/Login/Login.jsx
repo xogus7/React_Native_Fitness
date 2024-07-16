@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } fro
 import { Controller, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
 
-import { api } from '../../utils/api';
+import { api } from '@utils/api';
 
 const Login = ({ navigation }) => {
     const { control, handleSubmit, formState: { errors } } = useForm({
@@ -18,9 +18,9 @@ const Login = ({ navigation }) => {
         if (!response.ok) {
             return Toast.show({
                 type: 'error',
-                text1: 'Login fail',
+                text1: '로그인 실패',
                 text2: `${response.data.message}`
-            });;
+            });
         }
 
         const userInfoResponse = await api.get('/accounts/info');
