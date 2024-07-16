@@ -2,6 +2,10 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
+const settingsIcon = require('../assets/icons/settings.png');
+const alarm = require('../assets/icons/alarm.png');
+const backArrow = require('../assets/icons/back_arrow.png');
+
 const BasicHeader = ({ title }) => {
     const navigation = useNavigation();
 
@@ -22,10 +26,6 @@ const BasicHeader = ({ title }) => {
         </View>
     )
 }
-
-const settingsIcon = require('../assets/icons/settings.png');
-const alarm = require('../assets/icons/alarm.png');
-const backArrow = require('../assets/icons/back_arrow.png');
 
 const styles = StyleSheet.create({
     headerWrapper: {
