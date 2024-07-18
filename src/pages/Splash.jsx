@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Linking, Platform } from 'react-native';
+import { View, Text, Linking, Platform, Image } from 'react-native';
+
+const splashIcon = require('@icons/splash.png')
 
 const Splash = ({ navigation }) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -12,7 +14,7 @@ const Splash = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Splash</Text>
+            <Image style={{width: '100%', height: '100%'}}source={splashIcon} resizeMode='contain'/>
         </View>
     )
 }

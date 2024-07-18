@@ -35,7 +35,7 @@ const SignUp = ({ navigation }) => {
             Toast.show({
                 type: 'error',
                 text1: '회원가입 실패',
-                text2: `${response.data.errors[0].reason}`
+                text2: `회원정보가 이미 존재합니다.`
             });
         }
     };
@@ -66,6 +66,7 @@ const SignUp = ({ navigation }) => {
                         }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
+                                keyboardType='email-address'
                                 style={styles.input}
                                 placeholder="email"
                                 value={value}
@@ -179,6 +180,7 @@ const SignUp = ({ navigation }) => {
                         }}
                         render={({ field: { onBlur, onChange, value } }) => (
                             <TextInput
+                                keyboardType='number-pad'
                                 style={styles.input}
                                 placeholder="phoneNumber"
                                 value={value}
@@ -202,13 +204,13 @@ const SignUp = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     input: {
-        backgroundColor: '#B2DCFF',
+        backgroundColor: '#DCE6FF',
         paddingHorizontal: 16,
         paddingVertical: 8,
         borderRadius: 8,
     },
     signUpButton: {
-        backgroundColor: '#4AABFF',
+        backgroundColor: '#9CB6FF',
         paddingHorizontal: 16,
         paddingVertical: 16,
         borderRadius: 8,

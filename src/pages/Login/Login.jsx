@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Controller, useForm } from 'react-hook-form';
 import Toast from 'react-native-toast-message';
@@ -36,6 +36,11 @@ const Login = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
             <View style={styles.loginScreen}>
+            <Text style={{
+                fontSize: 20,
+                fontWeight:'bold',
+                top: -80
+                }}>오늘 운동 하러 가요!</Text>
                 <View style={styles.loginContainer}>
                     <View style={{ gap: 8 }}>
                         <Controller
@@ -100,11 +105,11 @@ const styles = StyleSheet.create({
     input: {
         paddingHorizontal: 16,
         borderRadius: 8,
-        backgroundColor: '#B2DCFF',
+        backgroundColor: '#DCE6FF',
     },
     loginButton: {
         height: 40,
-        backgroundColor: '#4AABFF',
+        backgroundColor: '#9CB6FF',
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
