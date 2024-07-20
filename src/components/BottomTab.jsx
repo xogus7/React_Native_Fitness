@@ -1,6 +1,16 @@
 import React, { useRef } from 'react';
 import { View, TouchableOpacity, Animated, StyleSheet  } from 'react-native';
 
+const home_fill = require('@icons/bottomtab/home_fill.png');
+const home_empty = require('@icons/bottomtab/home_empty.png');
+const search_fill = require('@icons/bottomtab/search_fill.png');
+const search_empty = require('@icons/bottomtab/search_empty.png');
+const addOn = require('@icons/bottomtab/add_circle_off.png');
+const chat_fill = require('@icons/bottomtab/chat_fill.png');
+const chat_empty = require('@icons/bottomtab/chat_empty.png');
+const mypage_fill = require('@icons/bottomtab/mypage_fill.png');
+const mypage_empty = require('@icons/bottomtab/mypage_empty.png');
+
 const BottomTab = ({ state, navigation, insets, descriptors }) => {
     const tab1Value = useRef(new Animated.Value(0)).current;
     const tab2Value = useRef(new Animated.Value(0)).current;
@@ -35,7 +45,7 @@ const BottomTab = ({ state, navigation, insets, descriptors }) => {
                         switch (label) {
                             case 'Home':
                                 return bool ? home_fill : home_empty;
-                            case 'SearchTab':
+                            case 'Search':
                                 return bool ? search_fill : search_empty;
                             case 'Add':
                                 return bool ? addOn : addOn;
@@ -109,15 +119,5 @@ const styles = StyleSheet.create({
         zIndex: 10
     }
 })
-
-const home_fill = require('../assets/icons/bottomtab/home_fill.png');
-const home_empty = require('../assets/icons/bottomtab/home_empty.png');
-const search_fill = require('../assets/icons/bottomtab/search_fill.png');
-const search_empty = require('../assets/icons/bottomtab/search_empty.png');
-const addOn = require('../assets/icons/bottomtab/add_circle_off.png');
-const chat_fill = require('../assets/icons/bottomtab/chat_fill.png');
-const chat_empty = require('../assets/icons/bottomtab/chat_empty.png');
-const mypage_fill = require('../assets/icons/bottomtab/mypage_fill.png');
-const mypage_empty = require('../assets/icons/bottomtab/mypage_empty.png');
 
 export default BottomTab;
