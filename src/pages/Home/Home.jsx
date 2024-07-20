@@ -2,21 +2,38 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { SafeAreaView, View, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 
 import Feed from '@components/Feed';
-import BasicHeader from '@components/BasicHeader';
+import TitleHeader from '@components/TitleHeader';
 import { api } from '@utils/api';
+import { useIsFocused } from '@react-navigation/native';
+
 
 const Home = ({ navigation }) => {
   const [feeds, setFeeds] = useState([]);
-  const [liked, setLiked] = useState(false);
+  const [likedFeedList, setLikedFeedList] = useState();
   const [refreshing, setRefreshing] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     fetchFeeds();
   }, []);
+
+  useEffect(() => {
+  if (isFocused){
+    fetchFeeds();
+  }
+  }, [isFocused]);
+
+
   const fetchFeeds = async () => {
     const response = await api.get('/feed', {});
     if (response.ok && response.data?.result) {
-      setFeeds(response.data.result.content);
+      try {
+        setFeeds(response.data.result.content);
+        console.log(response.data.result.content)
+      } catch (error) {
+        
+      }
+      
       console.log(response.data.result.totalPages);
     }
   };
@@ -37,7 +54,7 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
-      <BasicHeader title={'Home'} />
+      <TitleHeader title={'Home'} />
       <View style={{ flex: 1 }}>
         <FlatList
           refreshControl={
@@ -51,7 +68,9 @@ const Home = ({ navigation }) => {
           }
           keyExtractor={item => item.id}
           data={feeds}
-          renderItem={renderFeedItem}
+          renderItem={({ item }) => (
+              <Feed navigation={navigation} item={item} />
+          )}
         />
       </View>
     </SafeAreaView>
