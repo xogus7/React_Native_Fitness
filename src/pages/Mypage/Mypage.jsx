@@ -4,6 +4,7 @@ import BasicHeader from '@components/BasicHeader';
 import FitnessCalender from '@components/FitnessCalender';
 import { useIsFocused } from '@react-navigation/native';
 import { API_URL, api } from '@utils/api';
+import { TEST_ID } from 'react-native-gifted-chat';
 
 
 
@@ -13,10 +14,11 @@ const Mypage = ({ navigation, route }) => {
     const [myPageInfo, setMyPageInfo] = useState();
 
     useEffect(() => {
-        getMyFeedListDates();
+        
         if (isFocused) {
             console.log("Get")
             getMypageInfo();
+            getMyFeedListDates();
         }
     }, [isFocused]);
 
@@ -30,9 +32,9 @@ const Mypage = ({ navigation, route }) => {
     }
 
     const getMyFeedListDates = () => {
-        myPageInfo.feedList.map((item) => {
+        {myPageInfo && myPageInfo.feedList.map((item) => {
             console.log(item.tags[item.tags.length - 1])
-        })
+        })}
         return
     }
 
@@ -44,7 +46,7 @@ const Mypage = ({ navigation, route }) => {
                 <BasicHeader title={'내 정보'} />
                 {myPageInfo && (
                     <>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#ddd', paddingVertical: 15 }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#ddd', paddingVertical: 30 }}>
                             <Image
                                 source={myPageInfo.accountInfoResponse.profileImagePath ?
                                     { uri: `${API_URL}${myPageInfo.accountInfoResponse.profileImagePath}` }
@@ -57,7 +59,7 @@ const Mypage = ({ navigation, route }) => {
                                     width: 100,
                                     height: 40,
                                     marginLeft: 150,
-                                    backgroundColor: '#4AABFF',
+                                    backgroundColor: '#9CB6FF',
                                     borderRadius: 8,
                                     justifyContent: 'center',
                                     alignItems: 'center',
@@ -71,34 +73,43 @@ const Mypage = ({ navigation, route }) => {
                                     프로필 편집
                                 </Text>
                             </TouchableOpacity>
+                            <Text style={{bottom: 7, left: 20, fontWeight: 500, fontSize: 15, position: 'absolute'}}>자기소개: {myPageInfo.accountInfoResponse.introduce}</Text>
                         </View>
-                        <View style={{ paddingHorizontal: 70, paddingVertical: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        
+                        <View style={{
+                            borderBottomWidth: 1,
+                            borderBottomColor: '#ddd',
+                            paddingHorizontal: 70, 
+                            paddingVertical: 15,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                        }}>
                             <TouchableOpacity
-                                onPress={() => navigation.navigate('Myfeed')}
+                                onPress={() => navigation.navigate('Myfeed', {data: myPageInfo.feedList,
+                                    onPressFeedImage: id => navigation.navigate('FeedDetail', {id})}
+                                )}
                                 style={{ alignItems: 'center', gap: 2 }}>
 
-                                <Text style={{ fontSize: 13 }}>게시물</Text>
-                                <Text style={{ fontSize: 12 }}>{myPageInfo.feedList.length}</Text>
+                                <Text style={{ color: '#111', fontSize: 13 }}>게시물</Text>
+                                <Text style={{ color: '#111', fontSize: 12 }}>{myPageInfo.feedList.length}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Follower')}
                                 style={{ alignItems: 'center', gap: 2 }}>
-                                <Text style={{ fontSize: 13 }}>팔로워</Text>
-                                <Text style={{ fontSize: 12 }}>{myPageInfo.accountInfoResponse.followerCount}</Text>
+                                <Text style={{ color: '#111', fontSize: 13 }}>팔로워</Text>
+                                <Text style={{ color: '#111', fontSize: 12 }}>{myPageInfo.accountInfoResponse.followerCount}</Text>
 
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('Follower')}
                                 style={{ alignItems: 'center', gap: 2 }}>
-                                <Text style={{ fontSize: 13 }}>팔로잉</Text>
-                                <Text style={{ fontSize: 12 }}>{myPageInfo.accountInfoResponse.followingCount}</Text>
-
+                                <Text style={{ color: '#111', fontSize: 13 }}>팔로잉</Text>
+                                <Text style={{ color: '#111', fontSize: 12 }}>{myPageInfo.accountInfoResponse.followingCount}</Text>
                             </TouchableOpacity>
                         </View>
                     </>
                 )}
-
-
                 <FitnessCalender navigation={navigation} />
             </View>
         </SafeAreaView>

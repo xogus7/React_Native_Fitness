@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, Image } from 'react-native';
 import BasicHeader from '../../components/BasicHeader';
+import { API_URL } from '@utils/api';
+import { FlatList } from 'react-native-gesture-handler';
 
 
-const Myfeed = ({ navigation }) => {
+const MyFeed = ({ data, onPressFeedImage ,route}) => {
+    const [width, setWidth] = useState(300);
+    const numColumns = 3;
+    const imageSize = width / numColumns;
+    data = route.params.data
+    onPressFeedImage = route.params.onPressFeedImage
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF' }}>
+            <BasicHeader title={'My Feed'} />
             <View style={{ flex: 1 }}>
-                <BasicHeader title={'My Feed'}/>
-                <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#ddd', paddingVertical: 15}}>
-                    <Image source={{ uri: 'https://picsum.photos/130/130' }} style={{ width: 60, height: 60, borderRadius: 30, marginLeft: 20}} />
-                    <Text style={{ color: '#111', fontSize: 20, fontWeight: 'bold', marginLeft: 20 }}>김태현</Text>
-                </View>
-                <View style={{ paddingHorizontal: 70, paddingVertical: 15, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <TouchableOpacity
-                        style={{ alignItems: 'center', gap: 2 }}>
-                        <Text style={{ fontSize: 13 }}>게시물</Text>
-                        <Text style={{ fontSize: 12 }}>10</Text>
-                    </TouchableOpacity>
-                </View>
+                <FlatList
+                    onLayout={event => setWidth(event.nativeEvent.layout.width)}
+                    data={data}
+                    numColumns={numColumns}
+                    renderItem={({ item }) => {
+                        const { images } = item;
+                        return (
+                            <TouchableOpacity onPress={() => onPressFeedImage(item.id)}>
+                                <Image
+                                    style={{
+                                        width: imageSize,
+                                        height: imageSize,
+                                        borderWidth: 1,
+                                        borderColor: '#fff',
+                                    }}
+                                    source={{ uri: `${API_URL}${images[0]}` }}
+                                />
+                            </TouchableOpacity>
+                        );
+                    }}
+                />
             </View>
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default Myfeed;
+export default MyFeed;
