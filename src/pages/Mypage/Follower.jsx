@@ -47,8 +47,8 @@ const Follower = ({ navigation }) => {
                     }
                 }}
             >
-                <Tab.Screen name="230403 팔로워" component={FollowerTab} />
-                <Tab.Screen name="261123 팔로잉" component={FollowingTab} />
+                <Tab.Screen name="팔로워" component={FollowerTab} />
+                <Tab.Screen name="팔로잉" component={FollowingTab} />
             </Tab.Navigator>
         </SafeAreaView>
     )

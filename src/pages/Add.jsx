@@ -54,7 +54,7 @@ const Add = ({ navigation }) => {
     const response = await api.post('/feed', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
-    console.log("ok: "+response.ok+ " problem: "+ response.problem)
+    console.log(response)
     if (response.ok) {
       console.log("post success");
       setImages([]);
@@ -64,7 +64,7 @@ const Add = ({ navigation }) => {
       navigation.navigate('Home');
       
     } else {
-      console.log(response.problem);
+      console.warn(response.problem);
     }
   };
 
@@ -94,7 +94,7 @@ const Add = ({ navigation }) => {
             setFeedForm(state => ({
               content: state.content,
               tags: [...state.tags,
-              postCreateDate.toString()]
+              postCreateDate.toISOString()]
             }));
           }}>
           <Text style={{ color: '#fff' }}>피드 등록하기</Text>
@@ -227,12 +227,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     borderRadius: 8,
-    backgroundColor: '#B2DCFF',
+    backgroundColor: '#DCE6FF',
   },
 
   button: {
     height: 50,
-    backgroundColor: '#4AABFF',
+    backgroundColor: '#9CB6FF',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',

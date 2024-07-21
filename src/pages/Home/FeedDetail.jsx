@@ -31,7 +31,7 @@ const FeedDetail = ({
     );
 
     if (response.ok && response.data) {
-      setFeed(response.data.result);
+      setFeed(response.data?.result);
     }
   };
 
@@ -42,7 +42,7 @@ const FeedDetail = ({
           <View
             style={{
               gap: 8,
-              backgroundColor: '#B2DCFF',
+              backgroundColor: '#f1f1f1',
               borderRadius: 8,
               padding: 16,
             }}
@@ -50,7 +50,7 @@ const FeedDetail = ({
             <FeedProfile
               name={comment.nickname}
               date={new Date(comment.createDate)}
-              imageUrl="https://i.pravatar.cc/52"
+              imageUrl="https://avatar.iran.liara.run/public"
             />
             <Text style={{ color: '#333' }}>{comment.reply}</Text>
           </View>
@@ -59,7 +59,7 @@ const FeedDetail = ({
     );
   };
 
-  const onPressSubmitComment = async (data) => {
+  const postComment = async (data) => {
     const response = await api.post(`/feed/${feed?.id}/reply`, {
       reply: data.comment,
     });
@@ -124,13 +124,13 @@ const FeedDetail = ({
             <TouchableOpacity
               style={{
                 width: 60,
-                backgroundColor: '#4AABFF',
+                backgroundColor: '#9CB6FF',
                 borderRadius: 8,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
-              onPress={handleSubmit(onPressSubmitComment, onInvalid)}>
-              <Text>등록</Text>
+              onPress={handleSubmit(postComment, onInvalid)}>
+              <Text style={{ color: '#fff' }}>등록</Text>
             </TouchableOpacity>
           </View>
         </View>

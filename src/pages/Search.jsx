@@ -56,7 +56,7 @@ const Search = ({ navigation }) => {
                 style={{
                     flexDirection: 'row',
                     alignItems: 'center',
-                    backgroundColor: '#B2DCFF',
+                    backgroundColor: '#DCE6FF',
                     margin: 16,
                     marginBottom: 0,
                     borderRadius: 8,
@@ -65,7 +65,7 @@ const Search = ({ navigation }) => {
                     style={{
                         flex: 1, paddingHorizontal: 16,
                         borderRadius: 8,
-                        backgroundColor: '#B2DCFF',
+                        backgroundColor: '#DCE6FF',
                     }}
                     placeholder="태그를 검색하세요!"
                     onChangeText={text => (searchQueryRef.current = text)}
